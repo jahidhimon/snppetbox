@@ -3,7 +3,14 @@
 <html lang='en'> 
     <head> 
         <meta charset='utf-8'> 
-        <title>{{template "title" .}} - Snippetbox</title> 
+        <title>{{template "title" .}} - Snippetbox</title>
+				<!-- Link to CSS stylesheet and favicon -->
+				<link href="/static/css/main.css" rel="stylesheet"/>
+				<link href="/static/img/favicon.ico" rel="icon" type="image/x-icon" />
+				<!-- Link to Ubuntu Font -->
+				<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
     </head> 
     <body> 
         <header> 
@@ -14,7 +21,12 @@
         </nav> 
         <section> 
           {{template "body" .}} 
-        </section> 
+        </section>
+				
+				{{template "footer" .}}
+				
+				<!-- Including JS file -->
+				<script src="/static/js/main.js" type="text/javascript"></script>
     </body> 
 </html> 
 {{end}}
