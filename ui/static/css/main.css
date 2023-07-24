@@ -234,6 +234,11 @@ button:hover {
     border-bottom: 1px solid #E4E5E7;
 }
 
+.snippet pre code {
+		padding: 0;
+		display: block;
+}
+
 .snippet .metadata {
     background-color: #F7F9FA;
     color: #6A6C6F;
@@ -251,6 +256,7 @@ button:hover {
 
 .snippet .metadata time {
     display: inline-block;
+		font-size: 15px;
 }
 
 .snippet .metadata time:first-child {
