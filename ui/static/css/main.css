@@ -229,6 +229,7 @@ button:hover {
 }
 
 .snippet pre {
+		white-space: pre-wrap;
     padding: 0 0 0 18px;
     border-top: 1px solid #E4E5E7;
     border-bottom: 1px solid #E4E5E7;
@@ -237,6 +238,7 @@ button:hover {
 .snippet pre code {
 		padding: 0;
 		display: block;
+		overflow-wrap: normal;
 }
 
 .snippet .metadata {
