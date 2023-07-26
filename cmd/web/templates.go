@@ -5,13 +5,15 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/jahidhimon/snppetbox/pkg/forms"
 	"github.com/jahidhimon/snppetbox/pkg/models"
 )
 
 type templateData struct {
 	CurrentYear int
-	Snippet *models.Snippet
-	Snippets []*models.Snippet
+	Form        *forms.Form
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {
@@ -23,7 +25,7 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 
 	for _, page := range pages {
 		name := filepath.Base(page)
-		
+
 		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			return nil, err
