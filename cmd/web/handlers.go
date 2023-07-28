@@ -56,7 +56,7 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := app.snippets.Insert(form.Get("title"), form.Get("content"), form.Get("expires"))
+	id, err := app.snippets.Insert(form.Get("title"), form.Get("content"), form.Get("expires"), app.session.GetInt(r, "userID"))
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -146,4 +146,16 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 
 	app.session.Put(r, "flash", "You've been logged out successfully!")
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (app *application) showUserSnippets(w http.ResponseWriter, r *http.Request) {
+	userID := app.session.GetInt(r, "userID")
+	snippets, err := app.snippets.UserSnippets(userID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	app.render(w, r, "snippets.page.tmpl", &templateData{
+		Snippets: snippets,
+	})
 }
