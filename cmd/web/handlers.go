@@ -159,3 +159,7 @@ func (app *application) showUserSnippets(w http.ResponseWriter, r *http.Request)
 		Snippets: snippets,
 	})
 }
+
+func ping(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
+}
