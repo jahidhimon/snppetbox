@@ -18,9 +18,7 @@
 		{{with .Errors.Get "content"}}
 		<label class="error">{{.}}</label>
 		{{end}}
-		<textarea cols="30" name="content" rows="10">
-			{{.Get "content"}}
-		</textarea>
+		<textarea cols="30" name="content" rows="10">{{.Get "content"}}</textarea>
 	</div>
 	<div>
 		<label>Delete in:</label>
