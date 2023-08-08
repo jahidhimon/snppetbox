@@ -21,14 +21,15 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
+	// TODO: show another message for expired snippets
 	id, err := strconv.Atoi(r.URL.Query().Get(":id"))
 	if err != nil || id < 1 {
-		app.notFound(w)
+		app.notFoundHandler(w, r)
 		return
 	}
 	snippet, err := app.snippets.Get(id)
 	if err == models.ErrNoRecord {
-		app.notFound(w)
+		app.notFoundHandler(w, r)
 		return
 	} else if err != nil {
 		app.serverError(w, err)
@@ -112,6 +113,13 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
+	id := app.session.GetInt(r, "userID")
+	if id != 0 {
+		// TODO: Do not redirect to home, retain to the page
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		app.session.Put(r, "flash", "🖕 Bokachoda. Logout First.")
+		return
+	}
 	app.render(w, r, "login.page.tmpl", &templateData{
 		Form: forms.New(nil),
 	})
@@ -129,6 +137,7 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	
 	id, err := app.users.Authenticate(form.Get("email"), form.Get("password"))
 	if err == models.ErrInvalidCredentials {
+		app.session.Put(r, "flash", "Email or password is incorrect")
 		form.Errors.Add("generic", "Email or password is incorrect")
 		app.render(w, r, "login.page.tmpl", &templateData{Form: form})
 		return
@@ -162,4 +171,8 @@ func (app *application) showUserSnippets(w http.ResponseWriter, r *http.Request)
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
+}
+
+func (app *application) notFoundHandler(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "notfound.page.tmpl", nil)
 }
